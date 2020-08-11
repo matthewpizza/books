@@ -1,0 +1,33 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Books</title>
+        <style type="text/css">
+            html { font-family: Menlo, monospace }
+        </style>
+    </head>
+    <body>
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+        <script type="text/javascript">
+            Promise.all(
+                [2020, 2019, 2018, 2017, 2016].map((year, index) => d3.csv(`${year}.csv`))
+            )
+                .then(years => years.map(year => year.reverse()))
+                .then(years => years.flat())
+                .then(rows => {
+                    const table = document.createElement('table')
+
+                    rows.forEach(row => {
+                        const tr = table.insertRow(-1)
+                        Object.values(row).map(cell => {
+                            const td = tr.insertCell(-1)
+                            td.innerText = cell
+                        })
+                    })
+
+                    document.body.appendChild(table)
+                })
+        </script>
+    </body>
+</html>
