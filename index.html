@@ -23,6 +23,7 @@
             header {
                 display: flex;
                 align-items: center;
+                padding: 0.25rem 0.5rem;
             }
             input[name=filter] {
                 margin-left: 2rem;
@@ -32,14 +33,15 @@
                 border-collapse: collapse;
                 table-layout: fixed;
             }
-            tr td:nth-child(1) {
-                width: 5%
+            tbody,
+            tr {
+                display: table;
             }
-            tr td:nth-child(2) {
-                width: 70%
+            tr {
+                grid-template-columns: 1fr 4fr 2fr;
             }
-            tr td:nth-child(3) {
-                width: 25%
+            td {
+                padding: 0.25rem 0.5rem;
             }
         </style>
     </head>
