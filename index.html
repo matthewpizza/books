@@ -50,14 +50,16 @@
     </head>
     <body>
         <header>
-            <h1>Books read since 2016</h1>
+            <h1>Books read since 1998</h1>
             <label for="filter" class="sr-hidden">Filter books</label>
             <input type="search" name="filter" placeholder="Filter" style="display: none">
         </header>
         <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
         <script src="https://d3js.org/d3-fetch.v1.min.js"></script>
         <script type="text/javascript">
-            const YEARS = [2022, 2021, 2020, 2019, 2018, 2017, 2016]
+            const FIRST_YEAR = 1998
+            const CURRENT_YEAR = 2022
+            const YEARS = Array(CURRENT_YEAR - FIRST_YEAR + 1).fill().map((_, i) => FIRST_YEAR + i).reverse()
             const COLUMNS = ['Year', 'Title', 'Author']
             Promise.all(
                 YEARS.map(year => {
