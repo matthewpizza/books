@@ -96,7 +96,7 @@
                     const filter = document.querySelector('input[name=filter]')
                     filter.value = ''
 
-                    filter.addEventListener('keyup', ({ target: { value } }) => {
+                    filter.addEventListener('input', ({ target: { value } }) => {
                         if (value.trim() === '') {
                             table.querySelectorAll('tr').forEach(tr => {
                                 tr.removeAttribute('style')
