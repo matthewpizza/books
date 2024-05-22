@@ -62,14 +62,14 @@
             const YEARS = Array(CURRENT_YEAR - FIRST_YEAR + 1).fill().map((_, i) => FIRST_YEAR + i).reverse()
             const COLUMNS = ['Year', 'Title', 'Author']
 
-            function debounce(action) {
-                let requestID
+            function debounce(action, delay = 100) {
+                let timeoutID
 
                 return (...args) => {
-                    cancelAnimationFrame(requestID)
-                    requestID = requestAnimationFrame(() => {
+                    clearTimeout(timeoutID)
+                    timeoutID = setTimeout(() => {
                         action.apply(this, args)
-                    })
+                    }, delay)
                 }
             }
 
