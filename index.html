@@ -61,6 +61,18 @@
             const CURRENT_YEAR = 2024
             const YEARS = Array(CURRENT_YEAR - FIRST_YEAR + 1).fill().map((_, i) => FIRST_YEAR + i).reverse()
             const COLUMNS = ['Year', 'Title', 'Author']
+
+            function debounce(action) {
+                let requestID
+
+                return (...args) => {
+                    cancelAnimationFrame(requestID)
+                    requestID = requestAnimationFrame(() => {
+                        action.apply(this, args)
+                    })
+                }
+            }
+
             Promise.all(
                 YEARS.map(year => {
                     return new Promise((resolve) => {
@@ -96,7 +108,7 @@
                     const filter = document.querySelector('input[name=filter]')
                     filter.value = ''
 
-                    filter.addEventListener('input', ({ target: { value } }) => {
+                    filter.addEventListener('input', debounce(({ target: { value } }) => {
                         if (value.trim() === '') {
                             table.querySelectorAll('tr').forEach(tr => {
                                 tr.removeAttribute('style')
@@ -113,7 +125,7 @@
                                 })
                             tr.style.display = !isVisible ? 'none' : ''
                         })
-                    })
+                    }))
 
                     document.body.appendChild(table)
                     filter.removeAttribute('style')
