@@ -62,17 +62,6 @@
             const YEARS = Array(CURRENT_YEAR - FIRST_YEAR + 1).fill().map((_, i) => FIRST_YEAR + i).reverse()
             const COLUMNS = ['Year', 'Title', 'Author']
 
-            function debounce(action, delay = 100) {
-                let timeoutID
-
-                return (...args) => {
-                    clearTimeout(timeoutID)
-                    timeoutID = setTimeout(() => {
-                        action.apply(this, args)
-                    }, delay)
-                }
-            }
-
             Promise.all(
                 YEARS.map(year => {
                     return new Promise((resolve) => {
@@ -108,7 +97,7 @@
                     const filter = document.querySelector('input[name=filter]')
                     filter.value = ''
 
-                    filter.addEventListener('input', debounce(({ target: { value } }) => {
+                    filter.addEventListener('change', ({ target: { value } }) => {
                         if (value.trim() === '') {
                             table.querySelectorAll('tr').forEach(tr => {
                                 tr.removeAttribute('style')
@@ -125,7 +114,7 @@
                                 })
                             tr.style.display = !isVisible ? 'none' : ''
                         })
-                    }))
+                    })
 
                     document.body.appendChild(table)
                     filter.removeAttribute('style')
