@@ -25,6 +25,7 @@
                 border-collapse: collapse;
                 table-layout: fixed;
             }
+            thead,
             tbody,
             tr {
                 display: grid;
@@ -35,8 +36,13 @@
             tr:nth-child(odd) {
                 background-color: #eee;
             }
-            td {
+            td,
+            th {
                 padding: 0.25rem 0.5rem;
+            }
+            th {
+                text-align: left;
+                background-color: #fff;
             }
         </style>
     </head>
@@ -44,49 +50,28 @@
         <header>
             <h1>Books read since 1998</h1>
         </header>
-        <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
-        <script src="https://d3js.org/d3-fetch.v1.min.js"></script>
-        <script type="text/javascript">
-            const FIRST_YEAR = 1998
-            const CURRENT_YEAR = 2025
-            const YEARS = Array(CURRENT_YEAR - FIRST_YEAR + 1).fill().map((_, i) => FIRST_YEAR + i).reverse()
-            const COLUMNS = ['Year', 'Title', 'Author']
-
-            Promise.all(
-                YEARS.map(year => {
-                    return new Promise((resolve) => {
-                        d3.csv(`${year}.csv`)
-                            .then(rows => {
-                                resolve({year, rows})
-                            })
-                    })
-                })
-            )
-                .then(years => {
-                    return years.map(year => {
-                        return year.rows.map(row => {
-                            row.Year = year.year
-                            return row
-                        })
-                    })
-                })
-                .then(years => years.map(year => year.reverse()))
-                .then(years => years.flat())
-                .then(rows => {
-                    const table = document.createElement('table')
-
-                    rows.forEach(row => {
-                        const tr = table.insertRow(-1)
-                        COLUMNS.forEach(key => {
-                            const td = tr.insertCell(-1)
-                            td.innerText = row[key]
-                            td.classList.add(key)
-                        })
-                    })
-
-                    document.body.appendChild(table)
-                    filter.removeAttribute('style')
-                })
-        </script>
+        <table>
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% assign current_year = 2025 %}
+                {% assign years = (1998..current_year) | reverse %}
+                {% for year in years %}
+                    {% assign year_str = year | escape %}
+                    {% for book in site.data[year_str] %}
+                        <tr>
+                            <td>{{ year }}</td>
+                            <td>{{ book.Title }}</td>
+                            <td>{{ book.Author }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
     </body>
 </html>
