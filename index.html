@@ -63,7 +63,8 @@
 {%- assign years = (1998..current_year) | reverse -%}
 {% for year in years %}
     {%- assign year_str = year | escape -%}
-    {% for book in site.data[year_str] %}
+    {%- assign books = site.data[year_str] | reverse -%}
+    {% for book in books %}
                 <tr>
                     <td>{{ year }}</td>
                     <td>{{ book.Title }}</td>
